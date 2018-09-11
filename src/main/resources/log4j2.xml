@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+<Appenders>
+ <!--standard out file appender -->
+ <Console name="STDOUT" target="SYSTEM_OUT">
+ <PatternLayout pattern="%d %-5p [%c] (%t:%x) %m%n"/>
+ </Console>
+
+<!--Enabled if we need an Error level logging-->
+ <!--core Error File-->
+<RollingFile name="core_Error" 
+			fileName="/var/log/marigold/core/database-errors.log"
+			filePattern="/var/log/marigold/core/database-errors-%d{yyyy-MM-dd}.log.gz">
+<PatternLayout>
+	<pattern>%d{ISO8601} %5p %c:%L - %m%n</pattern>
+</PatternLayout>
+        <Policies>
+            <SizeBasedTriggeringPolicy size="100 MB"/>
+   			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </Policies>
+<DefaultRolloverStrategy max="10"/>
+</RollingFile>
+
+ <!--core Info File-->
+ <RollingFile name="core_Info" 
+        fileName=" /var/log/marigold/core/database_info.log" 
+        filePattern="/marigold/database/core/database-info.%d{yyyy-MM-dd}.log.gz">
+        <PatternLayout>
+           <pattern>%d{ISO8601} %5p %c:%L - %m%n</pattern>
+        </PatternLayout>
+       <Policies>
+            <SizeBasedTriggeringPolicy size="100 MB"/>
+   			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </Policies>
+  <DefaultRolloverStrategy max="10"/>
+ </RollingFile>
+ 
+ <!--Enabled if we need an Debug level logging-->
+ <!--core Debug File-->
+ <RollingFile name="core_debug" 
+        fileName="/var/log/marigold/core/database-debug.log" 
+      filePattern="/var/log/marigold/core/database-debug-%d{yyyy-MM-dd}.log.gz">
+        <PatternLayout>
+           <pattern>%d{ISO8601} %5p %c:%L - %m%n</pattern>
+        </PatternLayout>
+      <Policies>
+            <SizeBasedTriggeringPolicy size="100 MB"/>
+   			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        </Policies>
+ <DefaultRolloverStrategy max="10"/>
+ </RollingFile> -->
+ 
+ 
+ </Appenders>
+    <Loggers>
+        <Logger name="com" level="debug" additivity="false">
+            <appender-ref ref="core_Info" level="debug"/>
+            <appender-ref level="debug" ref="STDOUT"/>
+           <!--Enabled if we have below level logging-->
+           <!--  <appender-ref ref="core_Error" level="error"/>
+            <appender-ref ref="core_debug" level="debug"/>
+            -->
+         </Logger>
+        <Root level="debug" additivity="false">
+            <appender-ref ref="core_Info"/>
+            <appender-ref ref="STDOUT"/>
+        </Root>
+    </Loggers>
+	  
+</Configuration>
